@@ -4,13 +4,18 @@
 ## Étapes pour créer un instantané et le sauvegarder sur un disque dur externe
 
 1. Créer un instantané ZFS :
-  Utilisez la commande zfs snapshot pour créer un instantané de votre pool de données.
+  - Utilisez la commande zfs snapshot pour créer un instantané de votre pool de données.
   ```bash
-  zfs snapshot datapool@snapshot_name
+  zfs snapshot -r datapool@snapshot_name
+
   ```
   Par exemple :
   ```bash
-  zfs snapshot datapool@backup2024-07-16
+  zfs snapshot -r datapool@backup2024-07-16
+  ```
+  - Vérifiez les instantanés pour vous assurer qu'ils ont été créés correctement.
+  ```bash
+  zfs list -t snapshot
   ```
 
 2. Connecter et préparer le disque dur externe :
@@ -33,11 +38,11 @@
   - Utilisez la commande zfs send pour envoyer l'instantané vers le disque dur externe. Vous pouvez combiner cela avec zfs receive si vous avez un pool ZFS sur le disque dur externe, ou simplement envoyer le flux de données vers un fichier.
   - Pour envoyer l'instantané vers un fichier sur le disque dur externe :
   ```bash
-  zfs send datapool@snapshot_name | gzip > /mnt/external/backupfile.gz
+  zfs send -R datapool@snapshot_name | gzip > /mnt/external/backupfile.gz
   ```
   Par exemple :
   ```bash
-  zfs send datapool@backup2024-07-16 | gzip > /mnt/external/backup2024-07-16.gz
+  zfs send -R datapool@backup2024-07-16 | gzip > /mnt/external/backup2024-07-16.gz
   ```
 
 4. Vérifier la sauvegarde :
@@ -62,7 +67,7 @@ Pour restaurer les données à partir de la sauvegarde :
 2. Restaurer le snapshot depuis le fichier de sauvegarde :
   - Utilisez la commande zfs receive pour recevoir le flux de données du fichier de sauvegarde.
   ```bash
-  zcat /mnt/external/backup2024-07-16.gz | zfs receive datapool@restored_snapshot
+  gunzip -c /mnt/pve/BACKUP/backup2024-07-16.gz | zfs receive -vn datapool@restored_snapshot
   ```
 3. Utiliser le snapshot restauré :
   - Vous pouvez alors utiliser le snapshot restauré comme vous le feriez avec n'importe quel autre snapshot.
