@@ -66,8 +66,7 @@
     - Montez le disque dur externe de la même manière que décrit précédemment.
   2. Restaurer le snapshot depuis le fichier de sauvegarde :
     - Utilisez la commande zfs receive pour recevoir le flux de données du fichier de sauvegarde.
-    ```bash
-    gunzip -c /mnt/pve/BACKUP/backup2024-07-16.gz | zfs receive -vn datapool@restored_snapshot```
+    ```gunzip -c /mnt/pve/BACKUP/backup2024-07-16.gz | zfs receive -vn datapool@restored_snapshot```
 
   4. Utiliser le snapshot restauré :
     - Vous pouvez alors utiliser le snapshot restauré comme vous le feriez avec n'importe quel autre snapshot.
