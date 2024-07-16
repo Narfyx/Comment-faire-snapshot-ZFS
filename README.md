@@ -71,6 +71,7 @@
     gunzip -c /mnt/pve/BACKUP/backup2024-07-16.gz | zfs receive -vn datapool@restored_snapshot
     
     ```
+
   4. Utiliser le snapshot restauré :
     - Vous pouvez alors utiliser le snapshot restauré comme vous le feriez avec n'importe quel autre snapshot.
 
