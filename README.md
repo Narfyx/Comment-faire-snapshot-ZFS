@@ -61,24 +61,24 @@
 ## Restaurer les données depuis la sauvegarde
 
 1. Vérifier si il y a déjà des snapshots:
-```bash
-zfs list
-```
+    ```bash
+    zfs list
+    ```
 2. Si vous avez besoin de supprimer des snapshots:
-```bash
-zfs destroy datapool@snapshot_name
-```
-Par exemple :
-```bash
-zfs destroy -r datapool@backup2024-07-16
-```
+    ```bash
+    zfs destroy datapool@snapshot_name
+    ```
+    Par exemple :
+    ```bash
+    zfs destroy -r datapool@backup2024-07-16
+    ```
 1. Connecter et monter le disque dur externe :
-- Montez le disque dur externe de la même manière que décrit précédemment.
+    - Montez le disque dur externe de la même manière que décrit précédemment.
 2. Restaurer le snapshot depuis le fichier de sauvegarde :
-- Utilisez la commande zfs receive pour recevoir le flux de données du fichier de sauvegarde.
-```gunzip -c /mnt/pve/BACKUP/backup2024-07-16.gz | zfs receive -vn datapool@restored_snapshot```
+    - Utilisez la commande zfs receive pour recevoir le flux de données du fichier de sauvegarde.
+    ```gunzip -c /mnt/pve/BACKUP/backup2024-07-16.gz | zfs receive -vn datapool@restored_snapshot```
 4. Utiliser le snapshot restauré :
-- Vous pouvez alors utiliser le snapshot restauré comme vous le feriez avec n'importe quel autre snapshot.
+    - Vous pouvez alors utiliser le snapshot restauré comme vous le feriez avec n'importe quel autre snapshot.
 
 ## Restaurer les données quand la partition ZFS contient l'OS hôte
 1. 
