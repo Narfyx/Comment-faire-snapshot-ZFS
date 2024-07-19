@@ -81,6 +81,37 @@
     - Vous pouvez alors utiliser le snapshot restauré comme vous le feriez avec n'importe quel autre snapshot.
 
 ## Restaurer les données quand la partition ZFS contient l'OS hôte
-1. 
+1. Booter à partir d'un live cd (j'utilise personnellement manjaro_kde).
+2. Sur la machine physique taper la commande suivante pour pouvoir avoir un accès à distance.
+   ```bash
+   sudo systemctl start sshd.service
+   ```
+   le mot de passe par défaut sudo est ```manjaro```
+3. Il faut maintenant repérer le nom des partitions sur lequelles nous allons intervenir, grâce à la commande ```lsblk```.
+   voici un extrait de la commande (le nom des disques et des partitions pourront être différente veiller à adapter les futures commande pour votre cas):
+   ```bash
+   sde           8:64   0 238,5G  0 disk 
+    └─sde1        8:65   0 238,5G  0 part 
+    sdf           8:80   1 119,3G  0 disk 
+    ├─sdf1        8:81   1 119,2G  0 part 
+    │ └─ventoy  254:0    0   3,3G  1 dm   /run/miso/bootmnt
+    └─sdf2        8:82   1    32M  0 part 
+    nvme0n1     259:0    0 238,5G  0 disk 
+    ├─nvme0n1p1 259:1    0  1007K  0 part 
+    ├─nvme0n1p2 259:2    0     1G  0 part 
+    ├─nvme0n1p3 259:3    0    63G  0 part 
+    ├─nvme0n1p4 259:4    0  93,4G  0 part 
+    └─nvme0n1p5 259:5    0  81,1G  0 part 
+    nvme1n1     259:6    0 238,5G  0 disk 
+    ├─nvme1n1p1 259:7    0  1007K  0 part 
+    ├─nvme1n1p2 259:8    0     1G  0 part 
+    ├─nvme1n1p3 259:9    0    63G  0 part 
+    ├─nvme1n1p4 259:10   0  93,4G  0 part 
+    └─nvme1n1p5 259:11   0  81,1G  0 part 
+   ```
+   Pour ma part je vais intervenir sur la partition ```nmve0n1p3``` & ```nmve1n1p3``` car ma configuration ZFS est en mirroring (RAID 1).
+   La partitions ```sde1``` sera quant à elle la partition qui contient ma backup snapshot.
+   
+   
 ## Remarque
   Assurez-vous d'avoir suffisamment d'espace sur le disque dur externe pour stocker la sauvegarde. Vous pouvez également utiliser des outils de gestion de sauvegarde comme rsync pour synchroniser les données sur le disque dur externe de manière incrémentielle.
