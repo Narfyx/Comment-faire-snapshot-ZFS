@@ -111,6 +111,18 @@
    ```
    Pour ma part je vais intervenir sur la partition ```nmve0n1p3``` & ```nmve1n1p3``` car ma configuration ZFS est en mirroring (RAID 1).
    La partitions ```sde1``` sera quant à elle la partition qui contient ma backup snapshot.
+### Importer le pool ZFS
+1. Assurez-vous que les modules ZFS sont chargés :
+   ```bash
+    sudo modprobe zfs
+   ```
+   - si vous avez des difficulté avec la commande précédente, essayé ceci pour vous aider:
+     ```bash
+     sudo pacman-mirrors --fasttrack
+     sudo pacman -Syy; sudo pacman -Syu
+     sudo pacman -S linux$(uname -r | grep -oP '^\d+\.\d+' | tr -d .)-zfs # cela va choisir automatiquement la bonne version pour votre noyau
+     sudo pacman -S openssl
+     ```
    
    
 ## Remarque
